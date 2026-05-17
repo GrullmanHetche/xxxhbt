@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💌 이상형 월드컵</title>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Pen+Script&family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink-deep: #E8538A;
+    --pink-mid: #F2789E;
+    --pink-light: #FFC2D9;
+    --pink-pale: #FFF0F5;
+    --pink-bg: #FFE4EF;
+    --cream: #FFF8F0;
+    --red-accent: #FF3366;
+    --gold: #FFD700;
+    --purple: #C084FC;
+    --mint: #6EE7B7;
+    --text-dark: #2D1F2A;
+    --text-mid: #7A3F5A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Gaegu', cursive;
+    background: var(--pink-bg);
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ctext y='20' font-size='20'%3E🩷%3C/text%3E%3C/svg%3E") 12 12, auto;
+  }
+
+  /* floating hearts bg */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(255,194,217,0.4) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(242,120,158,0.3) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(255,240,245,0.2) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .floating-deco {
+    position: fixed;
+    font-size: 2rem;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+    animation: floatAround 8s infinite ease-in-out;
+  }
+  .floating-deco:nth-child(1) { top: 5%; left: 3%; animation-delay: 0s; }
+  .floating-deco:nth-child(2) { top: 15%; right: 5%; animation-delay: 1.5s; font-size: 1.5rem; }
+  .floating-deco:nth-child(3) { top: 40%; left: 2%; animation-delay: 3s; font-size: 1.2rem; }
+  .floating-deco:nth-child(4) { top: 60%; right: 3%; animation-delay: 4.5s; }
+  .floating-deco:nth-child(5) { bottom: 20%; left: 5%; animation-delay: 2s; font-size: 1.8rem; }
+  .floating-deco:nth-child(6) { bottom: 10%; right: 7%; animation-delay: 0.5s; font-size: 1.3rem; }
+
+  @keyframes floatAround {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-15px) rotate(5deg); }
+    75% { transform: translateY(10px) rotate(-5deg); }
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* HEADER */
+  .site-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    animation: dropIn 0.6s ease both;
+  }
+
+  @keyframes dropIn {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .site-header .badge {
+    display: inline-block;
+    background: var(--red-accent);
+    color: white;
+    font-family: 'Jua', sans-serif;
+    font-size: 0.75rem;
+    padding: 4px 14px;
+    border-radius: 999px;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.05em;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.15);
+  }
+
+  .site-title {
+    font-family: 'Jua', sans-serif;
+    font-size: 2.6rem;
+    color: var(--pink-deep);
+    text-shadow: 3px 3px 0 var(--pink-light), 5px 5px 0 rgba(232,83,138,0.2);
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  .site-subtitle {
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 1.3rem;
+    color: var(--text-mid);
+  }
+
+  /* PROGRESS */
+  .progress-wrap {
+    background: white;
+    border-radius: 999px;
+    height: 12px;
+    margin-bottom: 0.5rem;
+    border: 2px solid var(--pink-light);
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(232,83,138,0.1);
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--pink-mid), var(--red-accent));
+    border-radius: 999px;
+    transition: width 0.4s ease;
+    position: relative;
+  }
+  .progress-bar::after {
+    content: '💗';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+  }
+  .progress-label {
+    text-align: right;
+    font-family: 'Jua', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-mid);
+    margin-bottom: 1.5rem;
+  }
+
+  /* QUESTION CARD */
+  .q-card {
+    background: white;
+    border-radius: 24px;
+    padding: 2rem;
+    border: 3px solid var(--pink-light);
+    box-shadow: 6px 6px 0 var(--pink-light), 10px 10px 0 rgba(232,83,138,0.1);
+    margin-bottom: 1.5rem;
+    animation: slideUp 0.4s ease both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .q-card::before {
+    content: '';
+    position: absolute;
+    top: -20px; right: -20px;
+    width: 80px; height: 80px;
+    background: var(--pink-pale);
+    border-radius: 50%;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .q-number {
+    font-family: 'Jua', sans-serif;
+    font-size: 0.8rem;
+    color: var(--pink-mid);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+
+  .q-text {
+    font-family: 'Jua', sans-serif;
+    font-size: 1.25rem;
+    color: var(--text-dark);
+    line-height: 1.4;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  /* OPTIONS */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .options-grid.single-col { grid-template-columns: 1fr; }
+  .options-grid.triple { grid-template-columns: 1fr 1fr 1fr; }
+
+  .opt-btn {
+    background: var(--pink-pale);
+    border: 2.5px solid var(--pink-light);
+    border-radius: 16px;
+    padding: 0.85rem 1rem;
+    font-family: 'Gaegu', cursive;
+    font-size: 1rem;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    line-height: 1.3;
+    position: relative;
+  }
+
+  .opt-btn:hover {
+    background: var(--pink-light);
+    border-color: var(--pink-mid);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 0 var(--pink-mid);
+  }
+
+  .opt-btn.selected {
+    background: var(--pink-mid);
+    border-color: var(--pink-deep);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 0 var(--pink-deep);
+  }
+
+  .opt-btn.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 6px; right: 8px;
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
+
+  /* MULTI-SELECT hint */
+  .multi-hint {
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 1rem;
+    color: var(--pink-mid);
+    margin-bottom: 0.75rem;
+  }
+
+  /* SLIDER */
+  .slider-wrap {
+    padding: 0.5rem 0;
+  }
+  .slider-display {
+    text-align: center;
+    font-family: 'Jua', sans-serif;
+    font-size: 2rem;
+    color: var(--pink-deep);
+    margin-bottom: 0.5rem;
+  }
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--pink-mid) var(--pct,50%), var(--pink-light) var(--pct,50%));
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--pink-deep);
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(232,83,138,0.4);
+    cursor: pointer;
+  }
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-mid);
+    margin-top: 6px;
+  }
+
+  /* TEXT INPUT */
+  .text-input-wrap textarea {
+    width: 100%;
+    border: 2.5px solid var(--pink-light);
+    border-radius: 16px;
+    padding: 1rem;
+    font-family: 'Gaegu', cursive;
+    font-size: 1.05rem;
+    color: var(--text-dark);
+    background: var(--pink-pale);
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s;
+    min-height: 80px;
+  }
+  .text-input-wrap textarea:focus {
+    border-color: var(--pink-mid);
+    background: white;
+  }
+  .text-input-wrap textarea::placeholder {
+    color: var(--pink-mid);
+    opacity: 0.6;
+  }
+
+  /* NAV BUTTONS */
+  .nav-row {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+  }
+
+  .btn-prev {
+    background: white;
+    border: 2.5px solid var(--pink-light);
+    border-radius: 14px;
+    padding: 0.7rem 1.5rem;
+    font-family: 'Jua', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-mid);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-prev:hover { background: var(--pink-pale); }
+
+  .btn-next {
+    flex: 1;
+    background: var(--pink-deep);
+    border: none;
+    border-radius: 14px;
+    padding: 0.85rem 1.5rem;
+    font-family: 'Jua', sans-serif;
+    font-size: 1.05rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 0 #B33E6F;
+    letter-spacing: 0.02em;
+  }
+  .btn-next:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #B33E6F; }
+  .btn-next:active { transform: translateY(2px); box-shadow: 0 2px 0 #B33E6F; }
+  .btn-next:disabled { background: var(--pink-light); box-shadow: none; cursor: not-allowed; }
+
+  /* RESULT PAGE */
+  .result-page {
+    display: none;
+    animation: slideUp 0.5s ease both;
+  }
+
+  .result-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .result-title {
+    font-family: 'Jua', sans-serif;
+    font-size: 2rem;
+    color: var(--pink-deep);
+    text-shadow: 2px 2px 0 var(--pink-light);
+    margin-bottom: 0.3rem;
+  }
+
+  .result-sub {
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 1.2rem;
+    color: var(--text-mid);
+  }
+
+  .result-card {
+    background: white;
+    border-radius: 24px;
+    border: 3px solid var(--pink-light);
+    box-shadow: 6px 6px 0 var(--pink-light);
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  .result-card-header {
+    background: var(--pink-pale);
+    padding: 1rem 1.5rem;
+    border-bottom: 2px solid var(--pink-light);
+    font-family: 'Jua', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text-mid);
+    letter-spacing: 0.05em;
+  }
+
+  .result-card-body {
+    padding: 1.5rem;
+  }
+
+  .result-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 0.75rem 0;
+    border-bottom: 1.5px dashed var(--pink-light);
+  }
+  .result-row:last-child { border-bottom: none; }
+
+  .result-q {
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 1rem;
+    color: var(--text-mid);
+    flex: 0 0 140px;
+    padding-top: 2px;
+  }
+
+  .result-a {
+    font-family: 'Gaegu', cursive;
+    font-size: 1.05rem;
+    color: var(--text-dark);
+    font-weight: 700;
+    flex: 1;
+  }
+
+  .result-tag {
+    display: inline-block;
+    background: var(--pink-pale);
+    border: 1.5px solid var(--pink-light);
+    border-radius: 999px;
+    padding: 2px 12px;
+    font-size: 0.9rem;
+    color: var(--text-mid);
+    margin: 2px 3px 2px 0;
+  }
+
+  .highlight-box {
+    background: linear-gradient(135deg, var(--pink-pale), #FFF0F5);
+    border: 2px solid var(--pink-light);
+    border-radius: 16px;
+    padding: 1.25rem;
+    text-align: center;
+    margin: 1rem 0;
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 1.4rem;
+    color: var(--text-dark);
+    position: relative;
+  }
+  .highlight-box::before, .highlight-box::after {
+    content: '💌';
+    position: absolute;
+    top: -10px;
+    font-size: 1.2rem;
+  }
+  .highlight-box::before { left: 12px; }
+  .highlight-box::after { right: 12px; }
+
+  .btn-restart {
+    width: 100%;
+    background: var(--pink-deep);
+    border: none;
+    border-radius: 16px;
+    padding: 1rem;
+    font-family: 'Jua', sans-serif;
+    font-size: 1.1rem;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #B33E6F;
+    transition: all 0.2s;
+    margin-top: 1.5rem;
+  }
+  .btn-restart:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #B33E6F; }
+
+  /* confetti canvas */
+  #confetti-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* sticker deco on result */
+  .sticker {
+    font-size: 1.8rem;
+    display: inline-block;
+    animation: wiggle 1.5s infinite ease-in-out;
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<!-- floating deco -->
+<div class="floating-deco">🩷</div>
+<div class="floating-deco">💫</div>
+<div class="floating-deco">🌸</div>
+<div class="floating-deco">✨</div>
+<div class="floating-deco">💝</div>
+<div class="floating-deco">🎀</div>
+
+<div class="wrapper">
+  <header class="site-header">
+    <div class="badge">💘 IDEAL TYPE QUIZ</div>
+    <h1 class="site-title">이상형이 뭐야? 🩷</h1>
+    <p class="site-subtitle">솔직하게 눌러봐 — 아무도 안 봐 (나만 봄)</p>
+  </header>
+
+  <!-- QUIZ SECTION -->
+  <div id="quiz-section">
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+    </div>
+    <div class="progress-label" id="progress-label">0 / 15</div>
+
+    <div class="q-card" id="q-card">
+      <!-- filled by JS -->
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-prev" id="btn-prev" onclick="prevQ()">← 이전</button>
+      <button class="btn-next" id="btn-next" onclick="nextQ()">다음 →</button>
+    </div>
+  </div>
+
+  <!-- RESULT SECTION -->
+  <div class="result-page" id="result-section">
+    <div class="result-header">
+      <div class="sticker">🎉</div>
+      <h2 class="result-title">이상형 완성 💌</h2>
+      <p class="result-sub">이렇게 완벽한 사람이 실존하면 인류의 기적</p>
+    </div>
+
+    <div class="result-card">
+      <div class="result-card-header">🧡 기본 스펙</div>
+      <div class="result-card-body" id="result-basic"></div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-card-header">💬 연애 스타일</div>
+      <div class="result-card-body" id="result-love"></div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-card-header">🚫 절대 안 되는 것</div>
+      <div class="result-card-body" id="result-dealbreak"></div>
+    </div>
+
+    <div id="result-letter-wrap"></div>
+
+    <button class="btn-restart" onclick="restart()">🔄 다시 해보기</button>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    id: 'age_diff',
+    text: '연상, 동갑, 연하 — 어떤 사람이 좋아? 🎂',
+    type: 'single',
+    options: ['연상이 좋아 (오빠/누나)', '동갑이 최고', '연하도 OK (동생)', '상관없어 뭐~']
+  },
+  {
+    id: 'height',
+    text: '키는 어느 정도가 이상적이야? 📏',
+    type: 'slider',
+    min: 163, max: 190, default: 178, unit: 'cm'
+  },
+  {
+    id: 'face_type',
+    text: '선호하는 얼굴상은? 🐰',
+    type: 'single',
+    grid: 'double',
+    options: ['토끼상 🐰', '다람쥐상 🐿️', '사슴상 🦌', '강아지상 🐶', '고양이상 🐱', '여우상 🦊', '곰상 🐻', '상관없어 다 좋아']
+  },
+  {
+    id: 'face_style',
+    text: '외모 스타일은? 👀',
+    type: 'single',
+    grid: 'double',
+    options: ['깔끔한 정장형 🧥', '캐주얼 보이시 👟', '꾸안꾸 감성남 🧣', '아이돌/연예인 느낌 ✨']
+  },
+  {
+    id: 'body_type',
+    text: '체형 선호도는? 💪',
+    type: 'single',
+    options: ['슬림 & 날씬', '슬림 + 근육', '평균 건강체형', '든든한 느낌', '상관없어!']
+  },
+  {
+    id: 'first_date',
+    text: '첫 데이트 장소로 어디가 좋아? 🗺️',
+    type: 'single',
+    grid: 'double',
+    options: ['분위기 좋은 카페 ☕', '맛있는 레스토랑 🍝', '전시/미술관 🎨', '한강 피크닉 🌸', '영화관 🎬', '놀이공원 🎡']
+  },
+  {
+    id: 'contact',
+    text: '연락 스타일은? 📱',
+    type: 'single',
+    options: ['하루종일 연락하는 사람', '자주 하되 적당히', '필요할 때만 연락', '상황봐서 유동적으로']
+  },
+  {
+    id: 'mbti',
+    text: '선호하는 MBTI 유형은? ✨',
+    type: 'multi',
+    options: ['E (외향형)', 'I (내향형)', 'N (직관형)', 'S (현실형)', 'T (사고형)', 'F (감정형)', 'J (계획형)', 'P (즉흥형)', '상관없어~']
+  },
+  {
+    id: 'voice',
+    text: '목소리 톤은? 🎙️',
+    type: 'single',
+    options: ['낮고 중후한 목소리', '보통 일반적인 톤', '높고 밝은 목소리', '목소리보단 말투가 중요']
+  },
+  {
+    id: 'alcohol',
+    text: '술은 어느 정도? 🍺',
+    type: 'single',
+    options: ['나도 안 마시고 상대도 안 마셨으면', '가볍게 한두 잔은 OK', '같이 신나게 마실 수 있으면 좋겠어', '상관없어']
+  },
+  {
+    id: 'hobby_match',
+    text: '취미가 나랑 비슷한 게 중요해? 🎮',
+    type: 'single',
+    options: ['매우 중요! 같이 즐겨야 함', '조금은 겹치면 좋겠어', '달라도 서로 존중하면 OK', '전혀 상관없어']
+  },
+  {
+    id: 'fight',
+    text: '싸웠을 때 어떻게 푸는 사람이 좋아? 🕊️',
+    type: 'single',
+    options: ['바로 사과하고 안아주는 사람 🫂', '시간 갖고 나서 대화하는 사람 ⏳', '논리적으로 차분히 얘기하는 사람 🗣️', '먼저 웃으면서 풀어주는 사람 😊', '밥 사주면서 무마하는 사람 🍜']
+  },
+  {
+    id: 'love_style',
+    text: '연애 스타일은? 💕',
+    type: 'single',
+    options: ['리드해주는 사람이 좋아', '같이 맞춰나가는 스타일', '내가 리드하는 편', '상황마다 달라']
+  },
+  {
+    id: 'dealbreaker',
+    text: '이건 절대 NO! 비호감 요소 골라봐 😤',
+    type: 'multi',
+    options: ['거짓말 🤥', '게임 과몰입 🎮', '연락 두절 📵', '과도한 음주 🍺', '헬창 강요 💪', '마마보이/파파보이 👨‍👩‍👦', '전 연인 얘기 🙅', '불성실한 생활패턴 😴', '돈 안 씀 💸', '패션 테러 👔']
+  },
+  {
+    id: 'letter',
+    text: '마지막! 이상형을 한 줄로 설명한다면? ✍️',
+    type: 'text',
+    placeholder: '예) 눈 마주치면 심장이 쿵 하는 사람...'
+  }
+];
+
+let current = 0;
+let answers = {};
+
+function renderQuestion() {
+  const q = questions[current];
+  const card = document.getElementById('q-card');
+  const pct = (current / questions.length) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = `${current} / ${questions.length}`;
+
+  let html = `<div class="q-number">Q${current + 1} of ${questions.length}</div>`;
+  html += `<div class="q-text">${q.text}</div>`;
+
+  if (q.type === 'single') {
+    const gridClass = q.grid === 'triple' ? 'triple' : q.grid === 'double' ? '' : (q.options.length <= 3 ? 'single-col' : '');
+    html += `<div class="options-grid ${gridClass}">`;
+    q.options.forEach((opt, i) => {
+      const sel = answers[q.id] === opt ? 'selected' : '';
+      html += `<button class="opt-btn ${sel}" onclick="selectSingle('${q.id}', this, ${i})">${opt}</button>`;
+    });
+    html += '</div>';
+  } else if (q.type === 'multi') {
+    html += `<p class="multi-hint">✏️ 여러 개 선택 가능</p>`;
+    const sel = answers[q.id] || [];
+    html += `<div class="options-grid">`;
+    q.options.forEach((opt, i) => {
+      const active = sel.includes(opt) ? 'selected' : '';
+      html += `<button class="opt-btn ${active}" onclick="selectMulti('${q.id}', '${opt.replace(/'/g,"\\'")}', this)">${opt}</button>`;
+    });
+    html += '</div>';
+  } else if (q.type === 'slider') {
+    const val = answers[q.id] !== undefined ? answers[q.id] : q.default;
+    const pctSlider = ((val - q.min) / (q.max - q.min)) * 100;
+    html += `<div class="slider-wrap">
+      <div class="slider-display" id="slider-val">${val}${q.unit}</div>
+      <input type="range" min="${q.min}" max="${q.max}" value="${val}" step="1"
+        style="--pct: ${pctSlider}%"
+        oninput="updateSlider(this, '${q.id}', ${q.min}, ${q.max}, '${q.unit}')">
+      <div class="slider-labels"><span>${q.min}${q.unit}</span><span>${q.max}${q.unit}</span></div>
+    </div>`;
+    answers[q.id] = val;
+  } else if (q.type === 'text') {
+    const val = answers[q.id] || '';
+    html += `<div class="text-input-wrap">
+      <textarea placeholder="${q.placeholder}" oninput="answers['${q.id}']=this.value">${val}</textarea>
+    </div>`;
+  }
+
+  card.innerHTML = html;
+  card.style.animation = 'none';
+  requestAnimationFrame(() => { card.style.animation = ''; });
+
+  document.getElementById('btn-prev').style.visibility = current === 0 ? 'hidden' : 'visible';
+  document.getElementById('btn-next').textContent = current === questions.length - 1 ? '결과 보기 💌' : '다음 →';
+}
+
+function selectSingle(id, el, idx) {
+  answers[id] = questions[current].options[idx];
+  document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function selectMulti(id, val, el) {
+  if (!answers[id]) answers[id] = [];
+  const arr = answers[id];
+  const i = arr.indexOf(val);
+  if (i === -1) { arr.push(val); el.classList.add('selected'); }
+  else { arr.splice(i, 1); el.classList.remove('selected'); }
+}
+
+function updateSlider(el, id, min, max, unit) {
+  const val = parseInt(el.value);
+  answers[id] = val;
+  document.getElementById('slider-val').textContent = val + unit;
+  const pct = ((val - min) / (max - min)) * 100;
+  el.style.setProperty('--pct', pct + '%');
+}
+
+function nextQ() {
+  const q = questions[current];
+  if (q.type !== 'slider' && q.type !== 'text' && !answers[q.id]) {
+    const card = document.getElementById('q-card');
+    card.style.animation = 'none';
+    card.style.borderColor = '#FF3366';
+    setTimeout(() => { card.style.borderColor = ''; }, 600);
+    return;
+  }
+  if (current < questions.length - 1) {
+    current++;
+    renderQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function prevQ() {
+  if (current > 0) { current--; renderQuestion(); }
+}
+
+function showResult() {
+  document.getElementById('quiz-section').style.display = 'none';
+  document.getElementById('result-section').style.display = 'block';
+
+  const labelMap = {
+    age_diff: '연상/동갑/연하',
+    height: '키',
+    face_type: '얼굴상',
+    face_style: '외모 스타일',
+    body_type: '체형',
+    first_date: '첫 데이트',
+    contact: '연락 스타일',
+    mbti: 'MBTI 선호',
+    voice: '목소리',
+    alcohol: '음주',
+    hobby_match: '취미 일치',
+    fight: '갈등 해결',
+    love_style: '연애 스타일',
+    dealbreaker: '비호감 요소',
+    letter: '한 줄 이상형'
+  };
+
+  function makeRow(id) {
+    const val = answers[id];
+    if (!val) return '';
+    let display = '';
+    if (Array.isArray(val)) {
+      display = val.map(v => `<span class="result-tag">${v}</span>`).join('');
+    } else if (typeof val === 'number') {
+      display = val + 'cm';
+    } else {
+      display = val;
+    }
+    return `<div class="result-row">
+      <span class="result-q">${labelMap[id]}</span>
+      <span class="result-a">${display}</span>
+    </div>`;
+  }
+
+  document.getElementById('result-basic').innerHTML =
+    makeRow('age_diff') + makeRow('height') + makeRow('face_type') + makeRow('face_style') + makeRow('body_type');
+
+  document.getElementById('result-love').innerHTML =
+    makeRow('first_date') + makeRow('contact') + makeRow('mbti') + makeRow('voice') +
+    makeRow('alcohol') + makeRow('hobby_match') + makeRow('fight') + makeRow('love_style');
+
+  document.getElementById('result-dealbreak').innerHTML = makeRow('dealbreaker');
+
+  if (answers['letter']) {
+    document.getElementById('result-letter-wrap').innerHTML =
+      `<div class="highlight-box">"${answers['letter']}"</div>`;
+  }
+
+  launchConfetti();
+  document.getElementById('progress-bar').style.width = '100%';
+  document.getElementById('progress-label').textContent = `${questions.length} / ${questions.length}`;
+}
+
+function restart() {
+  current = 0;
+  answers = {};
+  document.getElementById('quiz-section').style.display = 'block';
+  document.getElementById('result-section').style.display = 'none';
+  renderQuestion();
+}
+
+// confetti
+function launchConfetti() {
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const pieces = Array.from({length: 90}, () => ({
+    x: Math.random() * canvas.width,
+    y: -20,
+    r: Math.random() * 8 + 4,
+    d: Math.random() * 2 + 1,
+    color: ['#F2789E','#FFD700','#C084FC','#FF3366','#6EE7B7','#FFC2D9'][Math.floor(Math.random()*6)],
+    tilt: Math.random() * 20 - 10,
+    tiltSpeed: Math.random() * 0.05,
+    angle: 0
+  }));
+
+  let frame = 0;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      ctx.save();
+      ctx.beginPath();
+      ctx.fillStyle = p.color;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
+      ctx.fillRect(-p.r/2, -p.r/2, p.r, p.r * 0.5);
+      ctx.restore();
+      p.y += p.d;
+      p.angle += p.tiltSpeed;
+      p.x += Math.sin(p.angle) * 1.5;
+    });
+    frame++;
+    if (frame < 200) requestAnimationFrame(draw);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  draw();
+}
+
+renderQuestion();
+</script>
+</body>
+</html>
